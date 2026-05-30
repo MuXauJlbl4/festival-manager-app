@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-seed-dictionaries
+      author: codex
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: ADMIN }
+              - column: { name: permission_description, value: "Full access to all system data" }
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: ORGANIZER }
+              - column: { name: permission_description, value: "Manages festivals, venues, events and reports" }
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: MANAGER }
+              - column: { name: permission_description, value: "Manages assigned events and participant lists" }
+
+        - insert:
+            tableName: event_types
+            columns:
+              - column: { name: name, value: "Концерт" }
+        - insert:
+            tableName: event_types
+            columns:
+              - column: { name: name, value: "Лекция" }
+        - insert:
+            tableName: event_types
+            columns:
+              - column: { name: name, value: "Мастер-класс" }
+        - insert:
+            tableName: event_types
+            columns:
+              - column: { name: name, value: "Кинопоказ" }
+        - insert:
+            tableName: event_types
+            columns:
+              - column: { name: name, value: "Спектакль" }
+
+        - insert:
+            tableName: participant_types
+            columns:
+              - column: { name: name, value: "Выступающий" }
+              - column: { name: conflict_check_required, valueBoolean: true }
+        - insert:
+            tableName: participant_types
+            columns:
+              - column: { name: name, value: "Персонал" }
+              - column: { name: conflict_check_required, valueBoolean: false }
+        - insert:
+            tableName: participant_types
+            columns:
+              - column: { name: name, value: "Гость" }
+              - column: { name: conflict_check_required, valueBoolean: false }

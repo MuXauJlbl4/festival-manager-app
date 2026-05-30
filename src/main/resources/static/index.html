@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Festival Manager</title>
+    <link rel="stylesheet" href="/styles/app.css">
+</head>
+<body>
+<main class="page">
+    <section id="landingView">
+        <header class="landing-header">
+            <div class="landing-brand">Festival Manager</div>
+            <nav class="landing-nav">
+                <a href="#festivals">Фестивали</a>
+                <a href="#events">Мероприятия</a>
+                <button id="showLoginButton">Войти</button>
+            </nav>
+        </header>
+        <section class="landing-hero">
+            <h1>Откройте Мир Фестивалей</h1>
+            <p>Ваш гид по самым ярким событиям и мероприятиям</p>
+        </section>
+        <section class="landing-content">
+            <h2>Ближайшие фестивали</h2>
+            <div id="festivalsList" class="item-grid"></div>
+            <h2>Популярные мероприятия</h2>
+            <div id="eventsList" class="item-grid"></div>
+        </section>
+        <footer class="landing-footer">
+            <p>&copy; 2026 Festival Manager. Все права защищены.</p>
+        </footer>
+    </section>
+
+    <div id="mainApp" class="hidden">
+        <section id="loginView" class="login-view">
+            <form id="loginForm" class="login-panel">
+                <p class="eyebrow">Festival Manager</p>
+                <h1>Вход в систему</h1>
+                <label>
+                    Логин
+                    <input id="username" name="username" autocomplete="username" value="user" required>
+                </label>
+                <label>
+                    Пароль
+                    <input id="password" name="password" type="password" autocomplete="current-password" value="user" required>
+                </label>
+                <button type="submit">Войти</button>
+                <p id="loginMessage" class="message" role="status"></p>
+                <div class="login-help">
+                    <strong>Тестовые роли:</strong>
+                    <span>admin/admin</span>
+                    <span>organizer/organizer</span>
+                    <span>manager/manager</span>
+                    <span>user/user</span>
+                </div>
+            </form>
+        </section>
+
+        <section id="appView" class="app-view hidden">
+            <aside class="sidebar">
+                <div class="brand">
+                    <span class="brand-mark">FM</span>
+                    <div>
+                        <strong>Festival Manager</strong>
+                        <span>ИС организации фестивалей</span>
+                    </div>
+                </div>
+                <nav id="entityNav" class="entity-nav" aria-label="Разделы"></nav>
+                <div class="sidebar-footer">
+                    <button id="profileButton" class="secondary-button" type="button">Мой профиль</button>
+                    <button id="logoutButton" class="secondary-button" type="button">Выйти</button>
+                </div>
+            </aside>
+
+            <section id="managementWorkspace" class="workspace">
+                <header class="hero">
+                    <div>
+                        <p class="eyebrow">Панель управления</p>
+                        <h2>Фестивали, площадки, расписание и участники</h2>
+                    </div>
+                    <div class="hero-badge">
+                        <span id="currentUserLabel">ADMIN</span>
+                        <small>JWT авторизация</small>
+                    </div>
+                </header>
+
+                <section class="stats-grid" aria-label="Сводка">
+                    <article>
+                        <span id="festivalCount">0</span>
+                        <p>Фестивали</p>
+                    </article>
+                    <article>
+                        <span id="eventCount">0</span>
+                        <p>Мероприятия</p>
+                    </article>
+                    <article>
+                        <span id="participantCount">0</span>
+                        <p>Участники</p>
+                    </article>
+                    <article>
+                        <span id="roomCount">0</span>
+                        <p>Помещения</p>
+                    </article>
+                </section>
+
+                <section class="content-grid">
+                    <article class="table-panel">
+                        <div class="panel-head">
+                            <div>
+                                <p class="eyebrow" id="entitySubtitle">CRUD</p>
+                                <h3 id="entityTitle">Фестивали</h3>
+                            </div>
+                            <button id="newButton" type="button">Новая запись</button>
+                        </div>
+                        <div id="tableWrap" class="table-wrap"></div>
+                    </article>
+
+                    <article class="form-panel">
+                        <div class="panel-head compact">
+                            <div>
+                                <p class="eyebrow">Форма</p>
+                                <h3 id="formTitle">Создание записи</h3>
+                            </div>
+                        </div>
+                        <form id="entityForm" class="entity-form"></form>
+                        <p id="formMessage" class="message" role="status"></p>
+                    </article>
+                </section>
+            </section>
+
+            <section id="profileView" class="workspace hidden">
+                <!-- Profile content will be rendered here by JavaScript -->
+            </section>
+        </section>
+    </div>
+</main>
+<script src="/scripts/app.js"></script>
+</body>
+</html>

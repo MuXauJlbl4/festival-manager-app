@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-seed-user-role
+      author: codex
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: USER }
+              - column: { name: permission_description, value: "Read-only access to public festival schedule" }

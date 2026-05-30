@@ -1,0 +1,28 @@
+# Maven
+target/
+.m2/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+build.log
+build.number
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Logs and Dumps
+*.log
+*.hprof
+*.dump
+
+# User-specific files
+assignment.pdf
+assignment_text.txt
+db_report.pdf
+db_report_text.txt
