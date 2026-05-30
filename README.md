@@ -29,7 +29,7 @@
 
 ### Backend
 - **Java 25**
-- **Spring Boot 4.
+- **Spring Boot 4.**
 - **Spring Web**, **Spring Data JPA**, **Spring Security**
 - **Liquibase** для миграций базы данных
 - **SQL База данных**: H2 (встроенная, для быстрого старта) и поддержка PostgreSQL (для production)
@@ -76,10 +76,38 @@
 ## Основные эндпоинты API
 
 Все эндпоинты находятся по префиксу `/api`.
+  Большинство эндпоинтов предоставляют стандартные операции для управления сущностями (CRUD: Create, Read, Update,
+  Delete). Для каждой из следующих сущностей доступны:
+   * GET /api/{название} — получить все записи.
+   * GET /api/{название}/{id} — получить одну запись по ID.
+   * POST /api/{название} — создать новую запись.
+   * PUT /api/{название}/{id} — обновить запись по ID.
+   * DELETE /api/{название}/{id} — удалить запись по ID.
 
--   **Аутентификация**: `POST /auth/login`
--   **Фестивали**: `GET, POST, PUT, DELETE /festivals`
--   **Мероприятия**: `GET, POST, PUT, DELETE /events`
--   **Пользователи**: `GET, POST, PUT, DELETE /users`
--   **Роли**: `GET, POST, PUT, DELETE /roles`
--   ... и другие, соответствующие всем сущностям системы.
+  Список сущностей с такими эндпоинтами:
+   * /api/festivals (Фестивали)
+   * /api/venues (Площадки)
+   * /api/rooms (Помещения)
+   * /api/event-types (Типы мероприятий)
+   * /api/events (Мероприятия)
+   * /api/participants (Участники)
+   * /api/event-participants (Участники мероприятий)
+   * /api/participant-types (Типы участников)
+   * /api/users (Пользователи системы)
+   * /api/roles (Роли)
+
+  Специальные эндпоинты
+   * POST /api/events/{id}/cancel
+       * Отменяет мероприятие с указанным ID.
+   * POST /api/events/{id}/register
+       * Записывает текущего залогиненного пользователя на мероприятие.
+
+  Управление и мониторинг (Actuator)
+   * GET /actuator/health
+       * Проверка "здоровья" приложения.
+   * GET /actuator/info
+       * Общая информация о приложении.
+   * GET /actuator/metrics
+       * Различные метрики производительности (память, CPU и т.д.).
+   * GET /actuator/loggers
+       * Просмотр и управление уровнями логирования.
