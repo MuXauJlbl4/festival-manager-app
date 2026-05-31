@@ -6,26 +6,24 @@ databaseChangeLog:
         - createTable:
             tableName: festivals
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: name, type: varchar(200), constraints: { nullable: false } }
               - column: { name: starts_on, type: date, constraints: { nullable: false } }
-              - column: { name: ends_on, type: date, constraints: { nullable: false } }
+              - column: { name: ends_on, type: date, constraints: { nullable: false, check: 'CHECK(ends_on >= starts_on)' } }
               - column: { name: city, type: varchar(100), constraints: { nullable: false } }
               - column: { name: status, type: varchar(20), constraints: { nullable: false } }
-        - sql:
-            sql: alter table festivals add constraint chk_festivals_dates check (ends_on >= starts_on)
 
         - createTable:
             tableName: roles
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: name, type: varchar(50), constraints: { nullable: false, unique: true } }
               - column: { name: permission_description, type: varchar(2000) }
 
         - createTable:
             tableName: users
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: role_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_users_roles, references: roles(id) } }
               - column: { name: full_name, type: varchar(200), constraints: { nullable: false } }
               - column: { name: username, type: varchar(50), constraints: { nullable: false, unique: true } }
@@ -37,51 +35,56 @@ databaseChangeLog:
         - createTable:
             tableName: venues
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: festival_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_venues_festivals, references: festivals(id), deleteCascade: true } }
               - column: { name: name, type: varchar(200), constraints: { nullable: false } }
               - column: { name: city, type: varchar(100), constraints: { nullable: false } }
               - column: { name: address, type: varchar(300), constraints: { nullable: false } }
               - column: { name: status, type: varchar(20), constraints: { nullable: false } }
               - column: { name: note, type: varchar(2000) }
-        - addUniqueConstraint:
+        - createIndex:
             tableName: venues
-            columnNames: festival_id, city, name
-            constraintName: uq_venues_festival_city_name
+            indexName: uq_venues_festival_city_name
+            unique: true
+            columns:
+              - column: { name: festival_id }
+              - column: { name: city }
+              - column: { name: name }
 
         - createTable:
             tableName: rooms
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: venue_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_rooms_venues, references: venues(id), deleteCascade: true } }
               - column: { name: name, type: varchar(200), constraints: { nullable: false } }
-              - column: { name: capacity, type: int, constraints: { nullable: false } }
+              - column: { name: capacity, type: int, constraints: { nullable: false, check: 'CHECK(capacity > 0)' } }
               - column: { name: floor, type: int }
               - column: { name: equipment, type: varchar(2000) }
-        - sql:
-            sql: alter table rooms add constraint chk_rooms_capacity check (capacity > 0)
-        - addUniqueConstraint:
+        - createIndex:
             tableName: rooms
-            columnNames: venue_id, name
-            constraintName: uq_rooms_venue_name
+            indexName: uq_rooms_venue_name
+            unique: true
+            columns:
+              - column: { name: venue_id }
+              - column: { name: name }
 
         - createTable:
             tableName: event_types
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: name, type: varchar(100), constraints: { nullable: false, unique: true } }
 
         - createTable:
             tableName: participant_types
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: name, type: varchar(50), constraints: { nullable: false, unique: true } }
               - column: { name: conflict_check_required, type: boolean, constraints: { nullable: false } }
 
         - createTable:
             tableName: participants
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: participant_type_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_participants_types, references: participant_types(id) } }
               - column: { name: full_name, type: varchar(200), constraints: { nullable: false } }
               - column: { name: birth_date, type: date }
@@ -94,7 +97,7 @@ databaseChangeLog:
         - createTable:
             tableName: events
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: festival_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_events_festivals, references: festivals(id), deleteCascade: true } }
               - column: { name: room_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_events_rooms, references: rooms(id) } }
               - column: { name: event_type_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_events_event_types, references: event_types(id) } }
@@ -103,24 +106,25 @@ databaseChangeLog:
               - column: { name: description, type: varchar(2000) }
               - column: { name: event_date, type: date, constraints: { nullable: false } }
               - column: { name: starts_at, type: time, constraints: { nullable: false } }
-              - column: { name: ends_at, type: time, constraints: { nullable: false } }
+              - column: { name: ends_at, type: time, constraints: { nullable: false, check: 'CHECK(ends_at > starts_at)' } }
               - column: { name: status, type: varchar(20), constraints: { nullable: false } }
-        - sql:
-            sql: alter table events add constraint chk_events_time check (ends_at > starts_at)
 
         - createTable:
             tableName: event_participants
             columns:
-              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: id, type: integer, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
               - column: { name: event_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_event_participants_events, references: events(id), deleteCascade: true } }
               - column: { name: participant_id, type: bigint, constraints: { nullable: false, foreignKeyName: fk_event_participants_participants, references: participants(id) } }
               - column: { name: role_at_event, type: varchar(100), constraints: { nullable: false } }
               - column: { name: status, type: varchar(20), constraints: { nullable: false } }
               - column: { name: registration_time, type: timestamp }
-        - addUniqueConstraint:
+        - createIndex:
             tableName: event_participants
-            columnNames: event_id, participant_id
-            constraintName: uq_event_participants_event_participant
+            indexName: uq_event_participants_event_participant
+            unique: true
+            columns:
+              - column: { name: event_id }
+              - column: { name: participant_id }
 
         - createIndex:
             tableName: events

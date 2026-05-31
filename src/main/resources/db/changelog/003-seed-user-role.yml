@@ -1,8 +1,23 @@
 databaseChangeLog:
   - changeSet:
-      id: 003-seed-user-role
+      id: 003-seed-roles
       author: codex
       changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: ADMIN }
+              - column: { name: permission_description, value: "Full access, user and dictionary management" }
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: ORGANIZER }
+              - column: { name: permission_description, value: "Manages festivals, venues, rooms, events and reports" }
+        - insert:
+            tableName: roles
+            columns:
+              - column: { name: name, value: MANAGER }
+              - column: { name: permission_description, value: "Works with assigned event information and participant lists" }
         - insert:
             tableName: roles
             columns:

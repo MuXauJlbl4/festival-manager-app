@@ -2,13 +2,14 @@ spring:
   application:
     name: festival-manager
   datasource:
-    url: ${DB_URL:jdbc:h2:mem:festival;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1}
-    username: ${DB_USERNAME:sa}
+    url: jdbc:sqlite:data/festival.db
+    driver-class-name: org.sqlite.JDBC
+    username: ${DB_USERNAME:}
     password: ${DB_PASSWORD:}
-    driver-class-name: ${DB_DRIVER:org.h2.Driver}
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
     open-in-view: false
     properties:
       hibernate:

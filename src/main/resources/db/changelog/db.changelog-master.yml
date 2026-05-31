@@ -2,7 +2,5 @@ databaseChangeLog:
   - include:
       file: db/changelog/001-create-schema.yml
   - include:
-      file: db/changelog/002-seed-dictionaries.yml
-  - include:
       file: db/changelog/003-seed-user-role.yml
 
